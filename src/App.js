@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
+  const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setColor(getRandomColor());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    const id = setTimeout(() => setColor(getRandomColor()), Math.random() * 5000);
+    setIntervalId(id);
+    return () => clearInterval(intervalId);
+  }, [intervalId]);
 
   function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -43,8 +43,8 @@ export default function App() {
 }
 
 
-// In this version, the Box component still takes a size prop to determine the size of the box, but instead of responding to a click, it uses the useEffect hook to automatically change colors every second. The useEffect hook sets up an interval that calls the setInterval function, which updates the color state every second using the getRandomColor function. The useEffect hook also returns a function that clears the interval when the component unmounts to prevent memory leaks.
+// In this version, the Box component still takes a size prop to determine the size of the box, but now it uses the useEffect hook to update the color state at random intervals. The useEffect hook sets up a timeout that calls the setTimeout function, which updates the color state after a random number of milliseconds between 0 and 5000. The useEffect hook also sets up a state variable intervalId to keep track of the currently running timeout, and clears it when the component unmounts to prevent memory leaks.
 
 // The BoxContainer component is unchanged, and still generates an array of Box components and renders them in a flexbox container.
 
-// Finally, the App component renders a BoxContainer with 400 small boxes (20x20) that change colors on their own. You can adjust the numBoxes and boxSize props to customize the appearance of your app.
+// Finally, the App component renders a BoxContainer with 400 small boxes (20x20) that change colors at random intervals. You can adjust the numBoxes and boxSize props to customize the appearance of your app.
