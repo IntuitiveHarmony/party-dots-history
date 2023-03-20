@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
 
-  function handleClick() {
-    setColor(getRandomColor());
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColor(getRandomColor());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -18,12 +21,11 @@ const Box = ({ size }) => {
 
   return (
     <div
-      onClick={handleClick}
       style={{
         backgroundColor: color,
         width: `${size}px`,
         height: `${size}px`,
-        margin: '5px',
+        margin: '1px',
       }}
     />
   );
@@ -37,5 +39,5 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={50} boxSize={30} />;
+  return <BoxContainer numBoxes={400} boxSize={8} />;
 }
