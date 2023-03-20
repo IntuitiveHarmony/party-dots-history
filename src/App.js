@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+const Box = ({ size }) => {
+  const [color, setColor] = useState(getRandomColor());
+
+  function handleClick() {
+    setColor(getRandomColor());
+  }
+
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div
+      onClick={handleClick}
+      style={{
+        backgroundColor: color,
+        width: `${size}px`,
+        height: `${size}px`,
+        margin: '5px',
+      }}
+    />
   );
-}
+};
 
-export default App;
+const BoxContainer = ({ numBoxes, boxSize }) => {
+  const boxes = Array.from({ length: numBoxes }).map((_, i) => (
+    <Box key={i} size={boxSize} />
+  ));
+  return <div style={{ display: 'flex', flexWrap: 'wrap' }}>{boxes}</div>;
+};
+
+export default function App() {
+  return <BoxContainer numBoxes={50} boxSize={30} />;
+}
