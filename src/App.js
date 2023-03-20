@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
 
-  function handleClick() {
-    setColor(getRandomColor());
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColor(getRandomColor());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -18,12 +21,11 @@ const Box = ({ size }) => {
 
   return (
     <div
-      onClick={handleClick}
       style={{
         backgroundColor: color,
         width: `${size}px`,
         height: `${size}px`,
-        margin: '5px',
+        margin: '1px',
       }}
     />
   );
@@ -37,12 +39,12 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={50} boxSize={30} />;
+  return <BoxContainer numBoxes={400} boxSize={8} />;
 }
 
 
-// In this example, the Box component takes a size prop to determine the size of the div. It also uses the useState hook to maintain a state of the current color of the div. The handleClick function is called whenever the div is clicked, which updates the color state to a new randomly generated color using the getRandomColor function.
+// In this version, the Box component still takes a size prop to determine the size of the box, but instead of responding to a click, it uses the useEffect hook to automatically change colors every second. The useEffect hook sets up an interval that calls the setInterval function, which updates the color state every second using the getRandomColor function. The useEffect hook also returns a function that clears the interval when the component unmounts to prevent memory leaks.
 
-// The BoxContainer component takes a numBoxes prop to determine the number of divs to render, and a boxSize prop to determine the size of each div. It generates an array of Box components using Array.from and the map function, and then renders them in a flexbox container using the display and flexWrap CSS properties.
+// The BoxContainer component is unchanged, and still generates an array of Box components and renders them in a flexbox container.
 
-// Finally, the App component simply renders a BoxContainer with 50 divs of size 30 pixels. You can adjust these values as needed to customize the appearance of your app.
+// Finally, the App component renders a BoxContainer with 400 small boxes (20x20) that change colors on their own. You can adjust the numBoxes and boxSize props to customize the appearance of your app.
