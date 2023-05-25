@@ -32,18 +32,23 @@ const Box = ({ size }) => {
     />
   );
 };
-
+// Okay, let's try modifying the BoxContainer component to fill the entire height of the screen. We can do this by setting the height of the BoxContainer div to 100vh, which means 100% of the viewport height. Here's the modified BoxContainer component:
 const BoxContainer = ({ numBoxes, boxSize }) => {
-  const boxes = Array.from({ length: numBoxes }).map((_, i) => (
+  const boxesPerRow = Math.floor(window.innerWidth / boxSize);
+  const numRows = Math.floor(window.innerHeight / boxSize);
+  const totalBoxes = boxesPerRow * numRows;
+
+  const boxes = Array.from({ length: totalBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
+
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
+        display: "flex",
+        flexWrap: "wrap",
         margin: "0",
-        overflow: "hidden",
+        height: "100vh",
       }}
     >
       {boxes}
