@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
@@ -25,10 +24,11 @@ const Box = ({ size }) => {
     <div
       style={{
         backgroundColor: color,
-        width: `${size}%`,
-        height: `${size}%`,
+        width: `${size}px`,
+        height: `${size}px`,
         margin: "0",
         padding: "0",
+        boxSizing: "border-box",
       }}
     />
   );
@@ -38,9 +38,13 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
-  return <div className="box-container">{boxes}</div>;
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", margin: "0" }}>
+      {boxes}
+    </div>
+  );
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={400} boxSize={2} />;
+  return <BoxContainer numBoxes={400} boxSize={8} />;
 }
