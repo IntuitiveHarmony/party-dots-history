@@ -26,8 +26,9 @@ const Box = ({ size }) => {
     <div
       style={{
         backgroundColor: color,
-        width: "100%",
-        height: "100%",
+        width: `${size}px`,
+        height: `${size}px`,
+        margin: "1px",
       }}
     />
   );
@@ -37,22 +38,9 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        height: "100vh",
-        width: "100%",
-      }}
-    >
-      {boxes}
-    </div>
-  );
+  return <div style={{ display: "flex", flexWrap: "wrap" }}>{boxes}</div>;
 };
 
 export default function App() {
   return <BoxContainer numBoxes={400} boxSize={8} />;
 }
-
-// In this version, the BoxContainer component now has a height of 100vh and a width of 100%, which should make it take up the entire viewport. The Box component now has a width and height of 100%, which should make it fill up the entire BoxContainer.
