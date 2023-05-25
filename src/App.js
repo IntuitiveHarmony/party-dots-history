@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
@@ -24,44 +24,72 @@ const Box = ({ size }) => {
     <div
       style={{
         backgroundColor: color,
-        width: `${size}%`,
-        paddingBottom: `${size}%`,
-        float: "left",
+        width: `${size}px`,
+        height: `${size}px`,
+        margin: "0",
+        padding: "0",
         boxSizing: "border-box",
       }}
     />
   );
 };
-// Okay, let's try modifying the BoxContainer component to fill the entire height of the screen. We can do this by setting the height of the BoxContainer div to 100vh, which means 100% of the viewport height. Here's the modified BoxContainer component:
-const BoxContainer = ({ boxSize }) => {
-  const [numBoxes, setNumBoxes] = useState(0);
 
-  const calculateNumBoxes = () => {
-    const boxContainer = document.getElementById("box-container");
-    const containerWidth = boxContainer.offsetWidth;
-    const containerHeight = window.innerHeight - boxContainer.offsetTop;
-    const horizontalBoxes = Math.floor(containerWidth / boxSize);
-    const verticalBoxes = Math.floor(containerHeight / boxSize);
-    setNumBoxes(horizontalBoxes * verticalBoxes);
-  };
+const BoxContainer = ({ numBoxes, boxSize }) => {
+  const boxContainerRef = useRef(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    calculateNumBoxes();
-    window.addEventListener("resize", calculateNumBoxes);
-    return () => window.removeEventListener("resize", calculateNumBoxes);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const boxes = Array.from({ length: numBoxes }).map((_, i) => (
+  const boxCount = Math.floor(width / boxSize);
+  const rows = Math.ceil(numBoxes / boxCount);
+  const totalBoxes = boxCount * rows;
+  const boxes = Array.from({ length: totalBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
 
+  const containerWidth = boxCount * boxSize;
+  const containerHeight = rows * boxSize;
+
   return (
-    <div id="box-container" style={{ margin: "0", padding: "0" }}>
-      {boxes}
+    <div
+      ref={boxContainerRef}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        width: "100vw",
+        height: "100vh",
+        margin: "0",
+        padding: "0",
+        overflow: "hidden",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          width: `${containerWidth}px`,
+          height: `${containerHeight}px`,
+          margin: "0",
+          padding: "0",
+          boxSizing: "border-box",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {boxes.slice(0, numBoxes)}
+      </div>
     </div>
   );
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={400} boxSize={2} />;
+  return <BoxContainer numBoxes={400} boxSize={20} />;
 }
+
+// This code should automatically adjust the number of boxes per row based on the width of the screen, and make sure that the boxes cover the whole screen without any gaps.
