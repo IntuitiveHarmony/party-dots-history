@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
-  const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
-    const id = setTimeout(
+    const intervalId = setInterval(
       () => setColor(getRandomColor()),
       Math.random() * 5000
     );
-    setIntervalId(id);
     return () => clearInterval(intervalId);
-  }, [intervalId]);
+  }, []);
 
   function getRandomColor() {
     const letters = "0123456789ABCDEF";
@@ -44,3 +42,5 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 export default function App() {
   return <BoxContainer numBoxes={400} boxSize={8} />;
 }
+
+// Base code
