@@ -1,25 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Box = ({ size }) => {
-  const [color, setColor] = useState(getRandomColor());
-
-  useEffect(() => {
-    const intervalId = setInterval(
-      () => setColor(getRandomColor()),
-      Math.random() * 5000
-    );
-    return () => clearInterval(intervalId);
-  }, []);
-
-  function getRandomColor() {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
+const Box = ({ size, color }) => {
   return (
     <div
       style={{
@@ -27,23 +8,34 @@ const Box = ({ size }) => {
         width: `${size}px`,
         height: `${size}px`,
         margin: "0",
-        flex: "1 0 auto",
+        padding: "0",
       }}
     />
   );
 };
 
-const BoxContainer = ({ numBoxes, boxSize }) => {
-  const boxes = Array.from({ length: numBoxes }).map((_, i) => (
-    <Box key={i} size={boxSize} />
+const BoxContainer = ({ numRows, numCols, boxSize }) => {
+  const [colors, setColors] = useState([]);
+  const colorMap = { 0: "#000000", 1: "#FFFFFF" };
+
+  useEffect(() => {
+    const newColors = Array.from(
+      { length: numRows * numCols },
+      (_, i) => colorMap[(i + Math.floor(i / numCols)) % 2]
+    );
+    setColors(newColors);
+  }, [numRows, numCols]);
+
+  const boxes = colors.map((color, i) => (
+    <Box key={i} size={boxSize} color={color} />
   ));
+
   return (
     <div
       style={{
-        display: "flex",
-        flexWrap: "wrap",
-        height: "100vh",
-        width: "100vw",
+        display: "grid",
+        gridTemplateColumns: `repeat(${numCols}, ${boxSize}px)`,
+        gridGap: "0px",
       }}
     >
       {boxes}
@@ -52,5 +44,7 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={400} boxSize={8} />;
+  return <BoxContainer numRows={50} numCols={50} boxSize={10} />;
 }
+
+// In this approach, we use a BoxContainer component that takes in the number of rows and columns we want, and generates a checkerboard pattern using the useState and useEffect hooks. The Box component is the same as before. We use CSS grid layout to display the boxes in a checkerboard pattern with no gaps between them
