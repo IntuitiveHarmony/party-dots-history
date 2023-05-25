@@ -27,12 +27,11 @@ const Box = ({ size }) => {
         width: `${size}px`,
         height: `${size}px`,
         margin: "1px",
-        flex: "1 0 0",
       }}
     />
   );
 };
-// This should create a BoxContainer that takes up the entire page. Let me know if this helps!
+
 const BoxContainer = ({ numBoxes, boxSize }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
@@ -56,5 +55,12 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 };
 
 export default function App() {
+  useEffect(() => {
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+  }, []);
+
   return <BoxContainer numBoxes={400} boxSize={8} />;
 }
+
+// This code adds a useEffect hook that sets the margin and padding of the body element to 0. This should ensure that the BoxContainer takes up the entire page.
