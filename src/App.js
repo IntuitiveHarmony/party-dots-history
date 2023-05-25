@@ -27,8 +27,7 @@ const Box = ({ size }) => {
         width: `${size}px`,
         height: `${size}px`,
         margin: "0",
-        padding: "0",
-        boxSizing: "border-box",
+        flex: "1 0 auto",
       }}
     />
   );
@@ -39,7 +38,14 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
     <Box key={i} size={boxSize} />
   ));
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", margin: "0" }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        height: "100vh",
+        width: "100vw",
+      }}
+    >
       {boxes}
     </div>
   );
