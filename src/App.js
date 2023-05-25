@@ -32,13 +32,24 @@ const Box = ({ size }) => {
     />
   );
 };
-
+// This should create a BoxContainer that takes up the entire page. Let me know if this helps!
 const BoxContainer = ({ numBoxes, boxSize }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", height: "100vh" }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        height: "100vh",
+        width: "100vw",
+        alignItems: "stretch",
+        justifyContent: "stretch",
+        padding: "0",
+        margin: "0",
+      }}
+    >
       {boxes}
     </div>
   );
@@ -47,5 +58,3 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 export default function App() {
   return <BoxContainer numBoxes={400} boxSize={8} />;
 }
-
-// I added the flex: '1 0 0' property to the Box component's style to allow the boxes to take up equal space within their container. I also added a height: '100vh' property to the BoxContainer's style to make it take up the full height of the viewport.
