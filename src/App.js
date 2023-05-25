@@ -54,3 +54,5 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 export default function App() {
   return <BoxContainer numBoxes={400} boxSize={2} />;
 }
+
+// The changes include using percentage width and padding for the Box component instead of pixels, setting the float property to left, and using the viewport width and height for the BoxContainer component. I also set overflow to hidden on the BoxContainer to ensure that there is no scrolling.
