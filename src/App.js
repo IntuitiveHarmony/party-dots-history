@@ -33,24 +33,30 @@ const Box = ({ size }) => {
   );
 };
 // Okay, let's try modifying the BoxContainer component to fill the entire height of the screen. We can do this by setting the height of the BoxContainer div to 100vh, which means 100% of the viewport height. Here's the modified BoxContainer component:
-const BoxContainer = ({ numBoxes, boxSize }) => {
-  const boxesPerRow = Math.floor(window.innerWidth / boxSize);
-  const numRows = Math.floor(window.innerHeight / boxSize);
-  const totalBoxes = boxesPerRow * numRows;
+const BoxContainer = ({ boxSize }) => {
+  const [numBoxes, setNumBoxes] = useState(0);
 
-  const boxes = Array.from({ length: totalBoxes }).map((_, i) => (
+  const calculateNumBoxes = () => {
+    const boxContainer = document.getElementById("box-container");
+    const containerWidth = boxContainer.offsetWidth;
+    const containerHeight = window.innerHeight - boxContainer.offsetTop;
+    const horizontalBoxes = Math.floor(containerWidth / boxSize);
+    const verticalBoxes = Math.floor(containerHeight / boxSize);
+    setNumBoxes(horizontalBoxes * verticalBoxes);
+  };
+
+  useEffect(() => {
+    calculateNumBoxes();
+    window.addEventListener("resize", calculateNumBoxes);
+    return () => window.removeEventListener("resize", calculateNumBoxes);
+  }, []);
+
+  const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        margin: "0",
-        height: "100vh",
-      }}
-    >
+    <div id="box-container" style={{ margin: "0", padding: "0" }}>
       {boxes}
     </div>
   );
@@ -59,5 +65,3 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 export default function App() {
   return <BoxContainer numBoxes={400} boxSize={2} />;
 }
-
-// The changes include using percentage width and padding for the Box component instead of pixels, setting the float property to left, and using the viewport width and height for the BoxContainer component. I also set overflow to hidden on the BoxContainer to ensure that there is no scrolling.
