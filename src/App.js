@@ -33,7 +33,7 @@ const Box = ({ size }) => {
     />
   );
 };
-// By setting the height to 100vw as well, the circles will always be perfectly round no matter what the aspect ratio of the screen is.
+
 const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
@@ -41,12 +41,17 @@ const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
 
   return (
     <div
+      // With this CSS, the circles should always fill the screen, regardless of the aspect ratio.
       style={{
-        width: "100vw",
-        height: "100vw",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
         margin: "0",
         overflow: "hidden",
-        backgroundColor,
+        backgroundColor: backgroundColor,
+        minHeight: "100vh",
+        minWidth: "100vw",
       }}
     >
       {boxes}
