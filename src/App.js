@@ -24,8 +24,8 @@ const Box = ({ size }) => {
     <div
       style={{
         backgroundColor: color,
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${size}%`,
+        paddingBottom: `${size}%`,
         margin: "0",
         padding: "0",
         boxSizing: "border-box",
@@ -39,19 +39,12 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
     <Box key={i} size={boxSize} />
   ));
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        margin: "0",
-        height: "100vh",
-      }}
-    >
+    <div style={{ display: "flex", flexWrap: "wrap", margin: "0" }}>
       {boxes}
     </div>
   );
 };
 
 export default function App() {
-  return <BoxContainer numBoxes={400} boxSize={10} />;
+  return <BoxContainer numBoxes={400} boxSize={1} />;
 }
