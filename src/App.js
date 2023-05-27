@@ -24,9 +24,9 @@ const Box = ({ size }) => {
     <div
       style={{
         backgroundColor: color,
-        borderRadius: "30px",
-        width: `${size}%`,
-        paddingBottom: `${size}%`,
+        borderRadius: "50%",
+        width: `${size}vw`,
+        paddingBottom: `${size}vw`,
         float: "left",
         boxSizing: "border-box",
       }}
@@ -42,13 +42,15 @@ const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
-        margin: "0",
-        overflow: "hidden",
-        backgroundColor,
         display: "flex",
         flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "0",
+        overflow: "hidden",
+        backgroundColor: backgroundColor,
+        minHeight: "100vh",
+        minWidth: "100vw",
       }}
     >
       {boxes}
@@ -91,6 +93,6 @@ export default function App() {
   ) : null;
 }
 
-// With this code, the div container will always take up the full viewport width and height, and the display: flex and flexWrap: wrap styles will cause the Box components to automatically wrap to the next row when the container is too narrow for all the boxes to fit in a single row.
+// Here, we're using the vw unit to set the width and paddingBottom properties of the circle to size percent of the viewport width. This will make the circles take up the same percentage of the screen width and height no matter the size of the screen.
 
-// You can adjust the boxSize prop to make the circles larger or smaller as needed.
+// Note that we also updated the borderRadius property to 50% to ensure that the circles are always circular.
