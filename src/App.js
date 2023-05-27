@@ -47,6 +47,8 @@ const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
         margin: "0",
         overflow: "hidden",
         backgroundColor,
+        display: "flex",
+        flexWrap: "wrap",
       }}
     >
       {boxes}
@@ -88,3 +90,7 @@ export default function App() {
     />
   ) : null;
 }
+
+// With this code, the div container will always take up the full viewport width and height, and the display: flex and flexWrap: wrap styles will cause the Box components to automatically wrap to the next row when the container is too narrow for all the boxes to fit in a single row.
+
+// You can adjust the boxSize prop to make the circles larger or smaller as needed.
