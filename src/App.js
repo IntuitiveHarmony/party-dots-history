@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 const Box = ({ size }) => {
   const [color, setColor] = useState(getRandomColor());
 
+  // we can modify the interval time in the useEffect hook to slow down the maximum speed of changing colors. Currently, the interval time is set to a random value between 0 and 5000 milliseconds. We can increase the maximum value to, say, 10000 milliseconds by changing Math.random() * 5000 to Math.random() * 10000:
   useEffect(() => {
     const intervalId = setInterval(
       () => setColor(getRandomColor()),
-      Math.random() * 5000
+      Math.random() * 10000
     );
     return () => clearInterval(intervalId);
   }, []);
