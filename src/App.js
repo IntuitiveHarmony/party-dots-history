@@ -41,7 +41,6 @@ const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
 
   return (
     <div
-      // With this CSS, the circles should always fill the screen, regardless of the aspect ratio.
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -88,12 +87,8 @@ export default function App() {
   return start ? (
     <BoxContainer
       numBoxes={400}
-      boxSize={4}
+      boxSize={7}
       backgroundColor={backgroundColor}
     />
   ) : null;
 }
-
-// Here, we're using the vw unit to set the width and paddingBottom properties of the circle to size percent of the viewport width. This will make the circles take up the same percentage of the screen width and height no matter the size of the screen.
-
-// Note that we also updated the borderRadius property to 50% to ensure that the circles are always circular.
