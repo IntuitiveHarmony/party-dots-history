@@ -88,4 +88,3 @@ export default function App() {
     />
   ) : null;
 }
-// I added a new prop backgroundColor to the BoxContainer component and passed it down to the div element. I also added a new useEffect hook to change the background color on a random interval using the getRandomColor function you provided.
