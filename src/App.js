@@ -34,10 +34,11 @@ const Box = ({ size }) => {
   );
 };
 
-const BoxContainer = ({ numBoxes, boxSize }) => {
+const BoxContainer = ({ numBoxes, boxSize, backgroundColor }) => {
   const boxes = Array.from({ length: numBoxes }).map((_, i) => (
     <Box key={i} size={boxSize} />
   ));
+
   return (
     <div
       style={{
@@ -45,6 +46,7 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
         height: "100vh",
         margin: "0",
         overflow: "hidden",
+        backgroundColor,
       }}
     >
       {boxes}
@@ -54,11 +56,36 @@ const BoxContainer = ({ numBoxes, boxSize }) => {
 
 export default function App() {
   const [start, setStart] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState(getRandomColor());
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setStart(true), 1000);
     return () => clearTimeout(timeoutId);
   }, []);
 
-  return start ? <BoxContainer numBoxes={400} boxSize={4} /> : null;
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => setBackgroundColor(getRandomColor()),
+      Math.random() * 4500 + 500
+    );
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function getRandomColor() {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  return start ? (
+    <BoxContainer
+      numBoxes={400}
+      boxSize={4}
+      backgroundColor={backgroundColor}
+    />
+  ) : null;
 }
+// I added a new prop backgroundColor to the BoxContainer component and passed it down to the div element. I also added a new useEffect hook to change the background color on a random interval using the getRandomColor function you provided.
